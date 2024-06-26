@@ -57,3 +57,22 @@ CREATE TABLE work_img_urls (
     img_url TEXT NOT NULL,
     FOREIGN KEY (work_id) REFERENCES work(id)
 );
+
+CREATE TABLE tag (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE user_tags (
+    user_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (tag_id) REFERENCES tag(id)
+);
+
+CREATE TABLE work_tags (
+    work_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    FOREIGN KEY (work_id) REFERENCES work(id),
+    FOREIGN KEY (tag_id) REFERENCES tag(id)
+);

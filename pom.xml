@@ -9,7 +9,7 @@
 		<version>3.3.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
+	<groupId>com.example.artisan</groupId>
 	<artifactId>Artisan-Cosmos-Backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Artisan-Cosmos-Backend</name>

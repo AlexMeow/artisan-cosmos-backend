@@ -59,6 +59,9 @@ public class User {
     @Column(name = "created_date", updatable = false)
     private Date createdDate;
     
+    @Column(nullable = false)
+    private String role;
+    
     // Getters and Setters
 
 	public Long getId() {
@@ -155,5 +158,13 @@ public class User {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

@@ -5,7 +5,8 @@ CREATE TABLE user (
     password TEXT NOT NULL,
     tags TEXT,
     bio TEXT,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	role VARCHAR(45) NOT NULL DEFAULT 'USER'
 );
 
 CREATE TABLE user_upload_works (

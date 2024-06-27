@@ -22,12 +22,13 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String name, String email, String bio, Date createdDate,
+    public UserDTO(Long id, String name, String email, String password, String bio, Date createdDate,
                    List<Integer> uploadWorks, List<Integer> savedWorks, List<Integer> likedWorks,
                    List<Integer> followers, List<Integer> following) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.bio = bio;
         this.createdDate = createdDate;
         this.uploadWorks = uploadWorks;

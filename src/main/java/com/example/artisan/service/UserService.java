@@ -27,6 +27,16 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         return convertToDTO(user);
     }
+    
+    public UserDTO findUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        return user != null ? convertToDTO(user) : null;
+    }
+    
+    // Compare plain password and hashed password.
+    public boolean checkPassword(String plainPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainPassword, hashedPassword);
+    }
 
     public UserDTO addUser(UserDTO userDTO) {
         User user = convertToEntity(userDTO);
@@ -82,6 +92,7 @@ public class UserService {
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
+                user.getPassword(),
                 user.getBio(),
                 user.getCreatedDate(),
                 user.getUploadWorks(),

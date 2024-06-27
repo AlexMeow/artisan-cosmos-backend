@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.artisan.model.dto.UserDTO;
 import com.example.artisan.model.po.User;
 import com.example.artisan.service.UserService;
+import com.example.artisan.util.JwtTokenUtil;
 
 @RestController
 @RequestMapping("/api/users")
@@ -16,6 +17,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     // 取得所有用戶
     @GetMapping
@@ -36,6 +40,16 @@ public class UserController {
     public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO userDTO) {
         UserDTO newUser = userService.addUser(userDTO);
         return ResponseEntity.ok(newUser);
+    }
+    
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserDTO loginUser) {
+        UserDTO user = userService.findUserByEmail(loginUser.getEmail());
+        if (user == null || !userService.checkPassword(loginUser.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(401).body("Invalid email or password");
+        }
+        String token = jwtTokenUtil.generateToken(user);
+        return ResponseEntity.ok(token);
     }
 
     // 更新用戶

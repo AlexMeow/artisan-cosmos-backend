@@ -16,6 +16,7 @@ public class UserDTO {
     private List<Integer> likedWorks;
     private List<Integer> followers;
     private List<Integer> following;
+    private String role;
 
     // Constructors, getters and setters
 
@@ -24,7 +25,7 @@ public class UserDTO {
 
     public UserDTO(Long id, String name, String email, String password, String bio, Date createdDate,
                    List<Integer> uploadWorks, List<Integer> savedWorks, List<Integer> likedWorks,
-                   List<Integer> followers, List<Integer> following) {
+                   List<Integer> followers, List<Integer> following, String role) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -36,6 +37,7 @@ public class UserDTO {
         this.likedWorks = likedWorks;
         this.followers = followers;
         this.following = following;
+        this.role = role;
     }
 
     public Long getId() {
@@ -125,4 +127,12 @@ public class UserDTO {
     public void setFollowing(List<Integer> following) {
         this.following = following;
     }
+    
+    public String getRole() {
+		return role;
+	}
+    
+    public void setRole(String role) {
+		this.role = role;
+	}
 }

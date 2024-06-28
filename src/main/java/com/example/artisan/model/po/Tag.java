@@ -1,5 +1,7 @@
 package com.example.artisan.model.po;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -9,11 +11,14 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
+    @ManyToMany(mappedBy = "tags")
+    private Set<Work> works;
+
     // Getters and Setters
-    
+   
 	public Long getId() {
 		return id;
 	}
@@ -29,4 +34,13 @@ public class Tag {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public Set<Work> getWorks() {
+		return works;
+	}
+
+	public void setWorks(Set<Work> works) {
+		this.works = works;
+	}
+
 }

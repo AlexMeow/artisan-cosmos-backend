@@ -17,6 +17,7 @@ public class UserDTO {
     private List<Integer> followers;
     private List<Integer> following;
     private String role;
+    private String avatarUrl;
 
     // Constructors, getters and setters
 
@@ -135,4 +136,12 @@ public class UserDTO {
     public void setRole(String role) {
 		this.role = role;
 	}
+    
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 }

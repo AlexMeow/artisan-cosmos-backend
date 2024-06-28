@@ -3,6 +3,7 @@ package com.example.artisan.model.po;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -16,8 +17,12 @@ public class Work {
     @Column(nullable = false)
     private String name;
 
-    @Column
-    private String tags;
+    @ManyToMany
+    @JoinTable(
+      name = "work_tags", 
+      joinColumns = @JoinColumn(name = "work_id"), 
+      inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
 
     @Column
     private String description;
@@ -28,9 +33,10 @@ public class Work {
     @Column(name = "saved_count")
     private int savedCount;
 
+    @Lob
     @ElementCollection
     @CollectionTable(name = "work_img_urls", joinColumns = @JoinColumn(name = "work_id"))
-    @Column(name = "img_url")
+    @Column(name = "img_url", columnDefinition = "LONGTEXT")
     private List<String> imgUrls;
 
 //    @CreationTimestamp
@@ -60,11 +66,12 @@ public class Work {
 		this.name = name;
 	}
 
-	public String getTags() {
+
+	public Set<Tag> getTags() {
 		return tags;
 	}
 
-	public void setTags(String tags) {
+	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
 	}
 

@@ -62,6 +62,9 @@ public class User {
     @Column(nullable = false)
     private String role;
     
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+    
     // Getters and Setters
 
 	public Long getId() {
@@ -167,4 +170,12 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 }

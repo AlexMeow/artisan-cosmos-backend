@@ -92,7 +92,7 @@ public class UserService {
 	}
 
 	private UserDTO convertToDTO(User user) {
-		return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getBio(),
+		return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getBio(),
 				user.getCreatedDate(), user.getUploadWorks(), user.getSavedWorks(), user.getLikedWorks(),
 				user.getFollowers(), user.getFollowing(), user.getRole());
 	}

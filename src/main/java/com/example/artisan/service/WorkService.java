@@ -1,5 +1,6 @@
 package com.example.artisan.service;
 
+import com.example.artisan.model.dto.ArtistDTO;
 import com.example.artisan.model.dto.UserDTO;
 import com.example.artisan.model.dto.WorkDTO;
 import com.example.artisan.model.po.Tag;
@@ -81,12 +82,19 @@ public class WorkService {
         workDTO.setTags(work.getTags().stream().map(Tag::getName).collect(Collectors.toList()));
         workDTO.setAuthorId(work.getAuthor().getId());
         
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(work.getAuthor().getId());
-        userDTO.setName(work.getAuthor().getName());
-        userDTO.setBio(work.getAuthor().getBio());
-        userDTO.setAvatarUrl(work.getAuthor().getAvatarUrl());
-        workDTO.setArtist(userDTO);
+        ArtistDTO artistDTO = new ArtistDTO();
+        artistDTO.setId(work.getAuthor().getId());
+        artistDTO.setName(work.getAuthor().getName());
+        artistDTO.setBio(work.getAuthor().getBio());
+        artistDTO.setAvatarUrl(work.getAuthor().getAvatarUrl());
+        workDTO.setArtist(artistDTO);
+        
+//        UserDTO userDTO = new UserDTO();
+//        userDTO.setId(work.getAuthor().getId());
+//        userDTO.setName(work.getAuthor().getName());
+//        userDTO.setBio(work.getAuthor().getBio());
+//        userDTO.setAvatarUrl(work.getAuthor().getAvatarUrl());
+//        workDTO.setArtist(userDTO);
         
         return workDTO;
     }

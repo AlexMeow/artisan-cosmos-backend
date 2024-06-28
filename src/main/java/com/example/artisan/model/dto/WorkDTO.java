@@ -9,7 +9,7 @@ public class WorkDTO {
 	private String description;
 	private List<String> imgUrls;
 	private Long authorId;
-	private UserDTO artist;  // 包含作者的信息
+	private ArtistDTO author;  // 包含作者的信息
 
 	// Getters and Setters
 
@@ -61,11 +61,11 @@ public class WorkDTO {
 		this.authorId = authorId;
 	}
 
-	public UserDTO getArtist() {
-		return artist;
+	public ArtistDTO getArtist() {
+		return author;
 	}
 
-	public void setArtist(UserDTO artist) {
-		this.artist = artist;
+	public void setArtist(ArtistDTO author) {
+		this.author = author;
 	}
 }

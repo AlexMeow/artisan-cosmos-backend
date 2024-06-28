@@ -75,4 +75,9 @@ public class JwtTokenUtil {
         final String extractedUsername = extractUsername(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
+    
+    public Long getUserIdFromToken(String token) {
+    		Claims claims = extractAllClaims(token);
+    		return Long.parseLong(claims.get("id").toString());
+    }
 }

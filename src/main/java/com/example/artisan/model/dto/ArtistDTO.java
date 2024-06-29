@@ -23,7 +23,7 @@ public class ArtistDTO {
 	}
 
 	public ArtistDTO(Long id, String name, String bio, Date createdDate, List<Integer> uploadWorks,
-			List<Integer> followers, List<Integer> following) {
+			List<Integer> followers, List<Integer> following, String avatarUrl) {
 		this.id = id;
 		this.name = name;
 		this.bio = bio;
@@ -31,6 +31,7 @@ public class ArtistDTO {
 		this.uploadWorks = uploadWorks;
 		this.followers = followers;
 		this.following = following;
+		this.avatarUrl = avatarUrl;
 	}
 
 	public Long getId() {

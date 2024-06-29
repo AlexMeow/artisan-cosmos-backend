@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import com.example.artisan.model.dto.ArtistDTO;
 import com.example.artisan.model.dto.UserDTO;
 import com.example.artisan.model.po.User;
 import com.example.artisan.repository.UserRepository;
@@ -17,14 +19,28 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	 @Value("${default.avatar}")
+    private String DEFAULT_AVATAR_URL;
 
 	public List<UserDTO> findAllUsers() {
 		return userRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+	}
+	
+	// 跟findAllUsers的差異是，findAllArtists return ArtistDTO，相較於UserDTO，不會有email或password等機敏性資料。
+	public List<ArtistDTO> findAllArtists() {
+		return userRepository.findAll().stream().map(this::convertToArtistDTO).collect(Collectors.toList());
 	}
 
 	public UserDTO findUserById(Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 		return convertToDTO(user);
+	}
+	
+	// 跟findUserById的差異同findAllArtists
+	public ArtistDTO findArtistById(Long id) {
+		User artist = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+		return convertToArtistDTO(artist);
 	}
 
 	public UserDTO findUserByEmail(String email) {
@@ -44,6 +60,8 @@ public class UserService {
 			String hashedPassword = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt(10));
 			user.setPassword(hashedPassword);
 			user.setRole("USER"); // 預設角色為 USER
+			user.setAvatarUrl(DEFAULT_AVATAR_URL); // 給一張預設頭圖
+			
 			User newUser = userRepository.save(user);
 			return convertToDTO(newUser);
 		} catch (DataIntegrityViolationException e) {
@@ -92,7 +110,7 @@ public class UserService {
 	}
 
 	private UserDTO convertToDTO(User user) {
-		return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getBio(),
+		return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getBio(),
 				user.getCreatedDate(), user.getUploadWorks(), user.getSavedWorks(), user.getLikedWorks(),
 				user.getFollowers(), user.getFollowing(), user.getRole());
 	}
@@ -104,5 +122,10 @@ public class UserService {
 		user.setBio(userDTO.getBio());
 		user.setPassword(userDTO.getPassword()); // 這裡先設置明文密碼，稍後進行salted hash
 		return user;
+	}
+	
+	private ArtistDTO convertToArtistDTO(User user) {
+		return new ArtistDTO(user.getId(), user.getName(), user.getBio(), user.getCreatedDate(), user.getUploadWorks(),
+				user.getFollowers(), user.getFollowing(), user.getAvatarUrl());
 	}
 }

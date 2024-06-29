@@ -54,15 +54,15 @@ public class User {
     @Column(name = "following_id")
     private List<Integer> following;
     
-//    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     @Column(name = "created_date", updatable = false)
     private Date createdDate;
     
     @Column(nullable = false)
     private String role;
     
-    @Column(name = "avatar_url")
+    @Lob
+    @Column(name = "avatar_url", columnDefinition = "LONGTEXT")
     private String avatarUrl;
     
     // Getters and Setters

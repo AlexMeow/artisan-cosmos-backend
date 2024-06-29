@@ -39,8 +39,8 @@ public class Work {
     @Column(name = "img_url", columnDefinition = "LONGTEXT")
     private List<String> imgUrls;
 
-//    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+//    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date", updatable = false)
     private Date createdDate;
 

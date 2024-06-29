@@ -41,22 +41,6 @@ public class UserDTO {
 		this.role = role;
 	}
 
-	public UserDTO(Long id, String name, String email, String bio, Date createdDate,
-			List<Integer> uploadWorks, List<Integer> savedWorks, List<Integer> likedWorks, List<Integer> followers,
-			List<Integer> following, String role) {
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.bio = bio;
-		this.createdDate = createdDate;
-		this.uploadWorks = uploadWorks;
-		this.savedWorks = savedWorks;
-		this.likedWorks = likedWorks;
-		this.followers = followers;
-		this.following = following;
-		this.role = role;
-	}
-
 	public Long getId() {
 		return id;
 	}

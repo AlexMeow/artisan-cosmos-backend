@@ -8,14 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.artisan.model.dto.ArtistDTO;
 import com.example.artisan.model.dto.UserDTO;
 import com.example.artisan.model.po.User;
 import com.example.artisan.service.UserService;
 import com.example.artisan.util.JwtTokenUtil;
 
 @RestController
-@RequestMapping("/api/users")
-public class UserController {
+@RequestMapping("/api/artist")
+public class ArtistController {
 
 	@Autowired
 	private UserService userService;
@@ -24,10 +25,11 @@ public class UserController {
 	private JwtTokenUtil jwtTokenUtil;
 
 	// 取得所有用戶
-	@GetMapping("/get-all-users")
-	public ResponseEntity<List<UserDTO>> findAllUsers() {
-		List<UserDTO> users = userService.findAllUsers();
-		return ResponseEntity.ok(users);
+	// TBD 改成用ArtistDTO
+	@GetMapping("/get-all-artists")
+	public ResponseEntity<List<ArtistDTO>> findAllUsers() {
+		List<ArtistDTO> artists = (List<ArtistDTO>)userService.findAllArtists();
+		return ResponseEntity.ok(artists);
 	}
 
 	// 依用戶ID取得用戶

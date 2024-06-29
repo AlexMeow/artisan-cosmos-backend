@@ -88,10 +88,18 @@ public class UserService {
 	public UserDTO updateAvatar(Long userId, String base64Avatar) throws IOException {
 	    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-	    // 直接設定 Base64 編碼的頭像 URL
+	    // 設定 Base64 編碼的頭像 URL
 	    user.setAvatarUrl(base64Avatar);
 	    User updatedUser = userRepository.save(user);
 
+	    return convertToDTO(updatedUser);
+	}
+	
+	@Transactional
+	public UserDTO updateBio(Long userId, String bio) {
+	    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+	    user.setBio(bio);
+	    User updatedUser = userRepository.save(user);
 	    return convertToDTO(updatedUser);
 	}
 

@@ -70,7 +70,7 @@ public class UserController {
 	}
 	
 	// 更新用戶頭圖
-	@PostMapping("/{id}/avatar")
+	@PostMapping("/update/{id}/avatar")
 	public ResponseEntity<?> uploadAvatar(@PathVariable Long id, @RequestBody Map<String, String> request) {
 	    try {
 	        String base64Avatar = request.get("avatar");
@@ -82,6 +82,21 @@ public class UserController {
 	        return ResponseEntity.ok(updatedUser);
 	    } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload avatar");
+	    }
+	}
+	
+	@PostMapping("/update/{id}/bio")
+	public ResponseEntity<?> updateBio(@PathVariable Long id, @RequestBody Map<String, String> request) {
+	    try {
+	        String bio = request.get("bio");
+	        if (bio == null) {
+	            return ResponseEntity.badRequest().body("Invalid bio data");
+	        }
+
+	        UserDTO updatedUser = userService.updateBio(id, bio);
+	        return ResponseEntity.ok(updatedUser);
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update bio");
 	    }
 	}
 

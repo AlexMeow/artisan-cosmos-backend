@@ -76,10 +76,15 @@ public class UserService {
 
 	public UserDTO updateUser(Long id, UserDTO userDTO) {
 		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-		user.setName(userDTO.getName());
-		user.setEmail(userDTO.getEmail());
-		user.setBio(userDTO.getBio());
-		// 不更新 role 和 password
+		if (userDTO.getName() != null) {			
+			user.setName(userDTO.getName());
+		}
+		if (userDTO.getPassword() != null) {
+			// Encrypt password before saving. Salted hashed.
+			String hashedPassword = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt(10));
+			user.setPassword(hashedPassword);
+		}
+		// 不更新 role 也暫時不開放更新email
 		User updatedUser = userRepository.save(user);
 		return convertToDTO(updatedUser);
 	}

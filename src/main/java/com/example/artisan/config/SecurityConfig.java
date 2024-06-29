@@ -1,25 +1,37 @@
 //package com.example.artisan.config;
 //
+//import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+//import org.springframework.security.config.http.SessionCreationPolicy;
+//import org.springframework.security.web.SecurityFilterChain;
+//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+//
+//import com.example.artisan.filter.JwtTokenFilter;
+//import com.example.artisan.util.JwtTokenUtil;
 //
 //@Configuration
-//public class SecurityConfig extends WebSecurityConfigurerAdapter {
+//@EnableWebSecurity
+//public class SecurityConfig{
+//
+//    @Autowired
+//    private JwtTokenUtil jwtTokenUtil;
 //
 //    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        JwtTokenFilter jwtTokenFilter = new JwtTokenFilter(jwtTokenUtil);
 //
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
 //        http.csrf().disable()
+//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//            .and()
 //            .authorizeRequests()
-//            .antMatchers("/api/auth/**").permitAll()
-//            .anyRequest().authenticated();
+//            .requestMatchers("/api/users/**").permitAll()
+//            .anyRequest().authenticated()
+//            .and()
+//            .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+//        return http.build();
 //    }
 //}

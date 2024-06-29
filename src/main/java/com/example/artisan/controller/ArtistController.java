@@ -33,7 +33,7 @@ public class ArtistController {
 
 	// 依用戶ID取得用戶
 	@GetMapping("/{id}")
-	public ResponseEntity<ArtistDTO> findUserById(@PathVariable Long id) {
+	public ResponseEntity<ArtistDTO> findArtistById(@PathVariable Long id) {
 		ArtistDTO artist = userService.findArtistById(id);
 		return ResponseEntity.ok(artist);
 	}

@@ -79,6 +79,9 @@ public class UserService {
 		if (userDTO.getName() != null) {			
 			user.setName(userDTO.getName());
 		}
+		if (userDTO.getJobTitle() != null) {			
+			user.setJobTitle(userDTO.getJobTitle());
+		}
 		if (userDTO.getPassword() != null) {
 			// Encrypt password before saving. Salted hashed.
 			String hashedPassword = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt(10));

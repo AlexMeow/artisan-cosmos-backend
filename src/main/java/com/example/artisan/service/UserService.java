@@ -14,6 +14,9 @@ import com.example.artisan.model.dto.UserDTO;
 import com.example.artisan.model.po.User;
 import com.example.artisan.repository.UserRepository;
 
+import io.jsonwebtoken.io.IOException;
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService {
 
@@ -61,6 +64,7 @@ public class UserService {
 			user.setPassword(hashedPassword);
 			user.setRole("USER"); // 預設角色為 USER
 			user.setAvatarUrl(DEFAULT_AVATAR_URL); // 給一張預設頭圖
+			user.setBio("Write something about you! :)");
 			
 			User newUser = userRepository.save(user);
 			return convertToDTO(newUser);
@@ -78,6 +82,17 @@ public class UserService {
 		// 不更新 role 和 password
 		User updatedUser = userRepository.save(user);
 		return convertToDTO(updatedUser);
+	}
+	
+	@Transactional
+	public UserDTO updateAvatar(Long userId, String base64Avatar) throws IOException {
+	    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+	    // 直接設定 Base64 編碼的頭像 URL
+	    user.setAvatarUrl(base64Avatar);
+	    User updatedUser = userRepository.save(user);
+
+	    return convertToDTO(updatedUser);
 	}
 
 	public void deleteUserById(Long id) {

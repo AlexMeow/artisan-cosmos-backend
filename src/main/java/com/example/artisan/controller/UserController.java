@@ -1,12 +1,14 @@
 package com.example.artisan.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.artisan.model.dto.UserDTO;
 import com.example.artisan.model.po.User;
@@ -61,14 +63,30 @@ public class UserController {
 	}
 
 	// 更新用戶
-	@PutMapping("/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
 		UserDTO updatedUser = userService.updateUser(id, userDTO);
 		return ResponseEntity.ok(updatedUser);
 	}
+	
+	// 更新用戶頭圖
+	@PostMapping("/{id}/avatar")
+	public ResponseEntity<?> uploadAvatar(@PathVariable Long id, @RequestBody Map<String, String> request) {
+	    try {
+	        String base64Avatar = request.get("avatar");
+	        if (base64Avatar == null || !base64Avatar.startsWith("data:image/")) {
+	            return ResponseEntity.badRequest().body("Invalid image data");
+	        }
+
+	        UserDTO updatedUser = userService.updateAvatar(id, base64Avatar);
+	        return ResponseEntity.ok(updatedUser);
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload avatar");
+	    }
+	}
 
 	// 刪除用戶
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
 		userService.deleteUserById(id);
 		return ResponseEntity.noContent().build();

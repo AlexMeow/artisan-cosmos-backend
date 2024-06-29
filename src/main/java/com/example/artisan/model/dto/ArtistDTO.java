@@ -7,14 +7,12 @@ public class ArtistDTO {
 
 	private Long id;
 	private String name;
+	private String jobTitle;
 	private String bio;
 	private Date createdDate;
 	private List<Integer> uploadWorks;
-//	private List<Integer> savedWorks;
-//	private List<Integer> likedWorks;
 	private List<Integer> followers;
 	private List<Integer> following;
-//	private String role;
 	private String avatarUrl;
 
 	// Constructors, getters and setters
@@ -22,10 +20,11 @@ public class ArtistDTO {
 	public ArtistDTO() {
 	}
 
-	public ArtistDTO(Long id, String name, String bio, Date createdDate, List<Integer> uploadWorks,
+	public ArtistDTO(Long id, String name, String jobTitle, String bio, Date createdDate, List<Integer> uploadWorks,
 			List<Integer> followers, List<Integer> following, String avatarUrl) {
 		this.id = id;
 		this.name = name;
+		this.jobTitle = jobTitle;
 		this.bio = bio;
 		this.createdDate = createdDate;
 		this.uploadWorks = uploadWorks;
@@ -97,5 +96,13 @@ public class ArtistDTO {
 
 	public void setAvatarUrl(String avatarUrl) {
 		this.avatarUrl = avatarUrl;
+	}
+
+	public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
 	}
 }

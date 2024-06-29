@@ -87,6 +87,8 @@ public class WorkService {
         artistDTO.setName(work.getAuthor().getName());
         artistDTO.setBio(work.getAuthor().getBio());
         artistDTO.setAvatarUrl(work.getAuthor().getAvatarUrl());
+        artistDTO.setCreatedDate(work.getAuthor().getCreatedDate());
+        artistDTO.setJobTitle(work.getAuthor().getJobTitle());
         workDTO.setArtist(artistDTO);
         
 //        UserDTO userDTO = new UserDTO();

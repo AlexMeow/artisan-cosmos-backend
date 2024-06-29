@@ -22,6 +22,7 @@ public class WorkController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadWork(@RequestBody WorkDTO workDTO, @RequestHeader("Authorization") String token) {
+    		// 從jwt裡面解析出上傳者的user id
         String jwt = token.substring(7);
         Long userId = jwtTokenUtil.getUserIdFromToken(jwt);
         WorkDTO newWork = workService.addWork(workDTO, userId);

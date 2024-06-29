@@ -9,6 +9,7 @@ public class UserDTO {
 	private String name;
 	private String email;
 	private String password;
+	private String jobTitle;
 	private String bio;
 	private Date createdDate;
 	private List<Integer> uploadWorks;
@@ -24,13 +25,14 @@ public class UserDTO {
 	public UserDTO() {
 	}
 
-	public UserDTO(Long id, String name, String email, String password, String bio, Date createdDate,
+	public UserDTO(Long id, String name, String email, String password, String jobTitle, String bio, Date createdDate,
 			List<Integer> uploadWorks, List<Integer> savedWorks, List<Integer> likedWorks, List<Integer> followers,
 			List<Integer> following, String role) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.jobTitle = jobTitle;
 		this.bio = bio;
 		this.createdDate = createdDate;
 		this.uploadWorks = uploadWorks;
@@ -143,5 +145,13 @@ public class UserDTO {
 
 	public void setAvatarUrl(String avatarUrl) {
 		this.avatarUrl = avatarUrl;
+	}
+
+	public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
 	}
 }

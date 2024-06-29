@@ -22,8 +22,11 @@ public class User {
 
     @Column(nullable = false)
     private String password;
-
+    
     @Column
+    private String jobTitle;
+
+	@Column
     private String tags;
 
     @Column
@@ -97,6 +100,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+    public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
 	}
 
 	public String getTags() {

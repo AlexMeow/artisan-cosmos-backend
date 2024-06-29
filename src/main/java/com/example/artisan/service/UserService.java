@@ -133,7 +133,7 @@ public class UserService {
 	}
 
 	private UserDTO convertToDTO(User user) {
-		return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getBio(),
+		return new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getJobTitle(), user.getBio(),
 				user.getCreatedDate(), user.getUploadWorks(), user.getSavedWorks(), user.getLikedWorks(),
 				user.getFollowers(), user.getFollowing(), user.getRole());
 	}
@@ -148,7 +148,7 @@ public class UserService {
 	}
 	
 	private ArtistDTO convertToArtistDTO(User user) {
-		return new ArtistDTO(user.getId(), user.getName(), user.getBio(), user.getCreatedDate(), user.getUploadWorks(),
+		return new ArtistDTO(user.getId(), user.getName(), user.getJobTitle(), user.getBio(), user.getCreatedDate(), user.getUploadWorks(),
 				user.getFollowers(), user.getFollowing(), user.getAvatarUrl());
 	}
 }

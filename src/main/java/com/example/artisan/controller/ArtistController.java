@@ -25,7 +25,6 @@ public class ArtistController {
 	private JwtTokenUtil jwtTokenUtil;
 
 	// 取得所有用戶
-	// TBD 改成用ArtistDTO
 	@GetMapping("/get-all-artists")
 	public ResponseEntity<List<ArtistDTO>> findAllUsers() {
 		List<ArtistDTO> artists = (List<ArtistDTO>)userService.findAllArtists();
@@ -34,67 +33,18 @@ public class ArtistController {
 
 	// 依用戶ID取得用戶
 	@GetMapping("/{id}")
-	public ResponseEntity<UserDTO> findUserById(@PathVariable Long id) {
-		UserDTO userDTO = userService.findUserById(id);
-		return ResponseEntity.ok(userDTO);
+	public ResponseEntity<ArtistDTO> findUserById(@PathVariable Long id) {
+		ArtistDTO artist = userService.findArtistById(id);
+		return ResponseEntity.ok(artist);
 	}
 
-	// 新增用戶
-	@PostMapping("/register")
-	public ResponseEntity<?> addUser(@RequestBody UserDTO userDTO) {
-		try {
-			UserDTO newUser = userService.addUser(userDTO);
-			return ResponseEntity.ok(newUser);
-
-		} catch (DataIntegrityViolationException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-		}
-	}
-
-	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody UserDTO loginUser) {
-		UserDTO user = userService.findUserByEmail(loginUser.getEmail());
-		System.out.println(user.getPassword());
-		if (user == null || !userService.checkPassword(loginUser.getPassword(), user.getPassword())) {
-			return ResponseEntity.status(401).body("Invalid email or password");
-		}
-		String token = jwtTokenUtil.generateToken(user);
-		return ResponseEntity.ok(token);
-	}
-
-	// 更新用戶
-	@PutMapping("/{id}")
-	public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-		UserDTO updatedUser = userService.updateUser(id, userDTO);
-		return ResponseEntity.ok(updatedUser);
-	}
-
-	// 刪除用戶
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
-		userService.deleteUserById(id);
-		return ResponseEntity.noContent().build();
-	}
-
+	/* ========= 以下待修改 ========= */
+	
 	// 取得用戶上傳的作品
 	@GetMapping("/{id}/upload-works")
 	public ResponseEntity<List<Integer>> getUserUploadWorks(@PathVariable Long id) {
 		List<Integer> uploadWorks = userService.getUserUploadWorks(id);
 		return ResponseEntity.ok(uploadWorks);
-	}
-
-	// 取得用戶收藏的作品
-	@GetMapping("/{id}/saved-works")
-	public ResponseEntity<List<Integer>> getUserSavedWorks(@PathVariable Long id) {
-		List<Integer> savedWorks = userService.getUserSavedWorks(id);
-		return ResponseEntity.ok(savedWorks);
-	}
-
-	// 取得用戶按讚的作品
-	@GetMapping("/{id}/liked-works")
-	public ResponseEntity<List<Integer>> getUserLikedWorks(@PathVariable Long id) {
-		List<Integer> likedWorks = userService.getUserLikedWorks(id);
-		return ResponseEntity.ok(likedWorks);
 	}
 
 	// 取得用戶的追蹤者

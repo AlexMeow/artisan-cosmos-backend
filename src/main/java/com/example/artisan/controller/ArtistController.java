@@ -47,17 +47,17 @@ public class ArtistController {
 		return ResponseEntity.ok(uploadWorks);
 	}
 
-	// 取得用戶的追蹤者
-	@GetMapping("/{id}/followers")
-	public ResponseEntity<List<Integer>> getUserFollowers(@PathVariable Long id) {
-		List<Integer> followers = userService.getUserFollowers(id);
-		return ResponseEntity.ok(followers);
-	}
-
-	// 取得用戶的關注者
-	@GetMapping("/{id}/following")
-	public ResponseEntity<List<Integer>> getUserFollowing(@PathVariable Long id) {
-		List<Integer> following = userService.getUserFollowing(id);
-		return ResponseEntity.ok(following);
-	}
+    // 取得用戶的追蹤者
+    @GetMapping("/{id}/followers")
+    public ResponseEntity<List<Integer>> getUserFollowers(@PathVariable Long id) {
+        List<Integer> followers = userService.getUserFollowers(id);
+        return ResponseEntity.ok(followers);
+    }
+    
+    // 取得用戶的關注者
+    @GetMapping("/{id}/following")
+    public ResponseEntity<List<Integer>> getUserFollowing(@PathVariable Long id) {
+        List<Integer> following = userService.getUserFollowing(id);
+        return ResponseEntity.ok(following);
+    }
 }

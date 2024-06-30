@@ -1,5 +1,6 @@
 package com.example.artisan.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,6 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody UserDTO loginUser) {
 		UserDTO user = userService.findUserByEmail(loginUser.getEmail());
-		System.out.println(user.getPassword());
 		if (user == null || !userService.checkPassword(loginUser.getPassword(), user.getPassword())) {
 			return ResponseEntity.status(401).body("Invalid email or password");
 		}
@@ -62,54 +62,57 @@ public class UserController {
 		return ResponseEntity.ok(token);
 	}
 
-	// 更新用戶 
+	// 更新用戶
 	@PutMapping("/update/{id}")
-	public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO, @RequestHeader("Authorization") String token) {
-        // 驗證JWT
-        if (!jwtTokenUtil.validateToken(token.substring(7))) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+	public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO,
+			@RequestHeader("Authorization") String token) {
+		// 驗證JWT
+		if (!jwtTokenUtil.validateToken(token.substring(7))) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
 		UserDTO updatedUser = userService.updateUser(id, userDTO);
 		return ResponseEntity.ok(updatedUser);
 	}
-	
+
 	// 更新用戶頭圖
 	@PostMapping("/update/{id}/avatar")
-	public ResponseEntity<?> uploadAvatar(@PathVariable Long id, @RequestBody Map<String, String> request, @RequestHeader("Authorization") String token) {
-        // 驗證JWT
-        if (!jwtTokenUtil.validateToken(token.substring(7))) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-	    try {
-	        String base64Avatar = request.get("avatar");
-	        if (base64Avatar == null || !base64Avatar.startsWith("data:image/")) {
-	            return ResponseEntity.badRequest().body("Invalid image data");
-	        }
+	public ResponseEntity<?> uploadAvatar(@PathVariable Long id, @RequestBody Map<String, String> request,
+			@RequestHeader("Authorization") String token) {
+		// 驗證JWT
+		if (!jwtTokenUtil.validateToken(token.substring(7))) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		try {
+			String base64Avatar = request.get("avatar");
+			if (base64Avatar == null || !base64Avatar.startsWith("data:image/")) {
+				return ResponseEntity.badRequest().body("Invalid image data");
+			}
 
-	        UserDTO updatedUser = userService.updateAvatar(id, base64Avatar);
-	        return ResponseEntity.ok(updatedUser);
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload avatar");
-	    }
+			UserDTO updatedUser = userService.updateAvatar(id, base64Avatar);
+			return ResponseEntity.ok(updatedUser);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload avatar");
+		}
 	}
-	
-	@PostMapping("/update/{id}/bio")
-	public ResponseEntity<?> updateBio(@PathVariable Long id, @RequestBody Map<String, String> request, @RequestHeader("Authorization") String token) {
-        // 驗證JWT
-        if (!jwtTokenUtil.validateToken(token.substring(7))) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-	    try {
-	        String bio = request.get("bio");
-	        if (bio == null) {
-	            return ResponseEntity.badRequest().body("Invalid bio data");
-	        }
 
-	        UserDTO updatedUser = userService.updateBio(id, bio);
-	        return ResponseEntity.ok(updatedUser);
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update bio");
-	    }
+	@PostMapping("/update/{id}/bio")
+	public ResponseEntity<?> updateBio(@PathVariable Long id, @RequestBody Map<String, String> request,
+			@RequestHeader("Authorization") String token) {
+		// 驗證JWT
+		if (!jwtTokenUtil.validateToken(token.substring(7))) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		try {
+			String bio = request.get("bio");
+			if (bio == null) {
+				return ResponseEntity.badRequest().body("Invalid bio data");
+			}
+
+			UserDTO updatedUser = userService.updateBio(id, bio);
+			return ResponseEntity.ok(updatedUser);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update bio");
+		}
 	}
 
 	// 刪除用戶
@@ -141,17 +144,50 @@ public class UserController {
 		return ResponseEntity.ok(likedWorks);
 	}
 
-	// 取得用戶的追蹤者
-	@GetMapping("/{id}/followers")
-	public ResponseEntity<List<Integer>> getUserFollowers(@PathVariable Long id) {
-		List<Integer> followers = userService.getUserFollowers(id);
-		return ResponseEntity.ok(followers);
+    // 取得用戶的追蹤者
+    @GetMapping("/{id}/followers")
+    public ResponseEntity<List<Integer>> getUserFollowers(@PathVariable Long id) {
+        List<Integer> followers = userService.getUserFollowers(id);
+        return ResponseEntity.ok(followers);
+    }
+    
+    // 取得用戶的關注者
+    @GetMapping("/{id}/following")
+    public ResponseEntity<List<Integer>> getUserFollowing(@PathVariable Long id) {
+        List<Integer> following = userService.getUserFollowing(id);
+        return ResponseEntity.ok(following);
+    }
+
+	// 追蹤用戶相關API
+
+	// 追蹤用戶
+	@PostMapping("/{userId}/follow/{artistId}")
+	public ResponseEntity<?> followUser(@PathVariable Long userId, @PathVariable Long artistId) {
+		try {
+			userService.followUser(userId, artistId);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
 	}
 
-	// 取得用戶的關注者
-	@GetMapping("/{id}/following")
-	public ResponseEntity<List<Integer>> getUserFollowing(@PathVariable Long id) {
-		List<Integer> following = userService.getUserFollowing(id);
-		return ResponseEntity.ok(following);
+	// 取消追蹤用戶
+	@DeleteMapping("/{userId}/follow/{artistId}")
+	public ResponseEntity<?> unfollowUser(@PathVariable Long userId, @PathVariable Long artistId) {
+		try {
+			userService.unfollowUser(userId, artistId);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+	}
+
+	// 檢查是否已經追蹤
+	@GetMapping("/{userId}/following/{artistId}")
+	public ResponseEntity<Map<String, Boolean>> isFollowing(@PathVariable Long userId, @PathVariable Long artistId) {
+		boolean isFollowing = userService.isFollowing(userId, artistId);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("isFollowing", isFollowing);
+		return ResponseEntity.ok(response);
 	}
 }

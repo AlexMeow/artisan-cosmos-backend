@@ -16,6 +16,9 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     private Set<Work> works;
+    
+//    @ManyToMany(mappedBy = "tags")
+//    private Set<User> users;
 
     // Getters and Setters
    
@@ -42,5 +45,13 @@ public class Tag {
 	public void setWorks(Set<Work> works) {
 		this.works = works;
 	}
+
+//	public Set<User> getUsers() {
+//		return users;
+//	}
+//
+//	public void setUsers(Set<User> users) {
+//		this.users = users;
+//	}
 
 }

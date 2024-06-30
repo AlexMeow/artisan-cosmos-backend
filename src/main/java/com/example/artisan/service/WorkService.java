@@ -75,6 +75,12 @@ public class WorkService {
 
 	}
     
+    // 取得特定Tag的作品
+    public List<WorkDTO> getArtworksByTag(String tag) {
+        List<Work> works = workRepository.findByTagName(tag);
+        return works.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+    
     // 刪除特定作品
     public void deleteWorkById(Long id) {
 		workRepository.deleteById(id);

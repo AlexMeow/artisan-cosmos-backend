@@ -47,15 +47,11 @@ public class User {
     @Column(name = "work_id")
     private List<Integer> likedWorks;
 
-    @ElementCollection
-    @CollectionTable(name = "user_followers", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "follower_id")
-    private List<Integer> followers;
+    @OneToMany(mappedBy = "user")
+    private List<UserFollowing> following;
 
-    @ElementCollection
-    @CollectionTable(name = "user_following", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "following_id")
-    private List<Integer> following;
+    @OneToMany(mappedBy = "following")
+    private List<UserFollowing> followers;
     
     @CreationTimestamp
     @Column(name = "created_date", updatable = false)
@@ -150,21 +146,21 @@ public class User {
 		this.likedWorks = likedWorks;
 	}
 
-	public List<Integer> getFollowers() {
-		return followers;
-	}
+    public List<UserFollowing> getFollowing() {
+        return following;
+    }
 
-	public void setFollowers(List<Integer> followers) {
-		this.followers = followers;
-	}
+    public void setFollowing(List<UserFollowing> following) {
+        this.following = following;
+    }
 
-	public List<Integer> getFollowing() {
-		return following;
-	}
+    public List<UserFollowing> getFollowers() {
+        return followers;
+    }
 
-	public void setFollowing(List<Integer> following) {
-		this.following = following;
-	}
+    public void setFollowers(List<UserFollowing> followers) {
+        this.followers = followers;
+    }
 
 	public Date getCreatedDate() {
 		return createdDate;

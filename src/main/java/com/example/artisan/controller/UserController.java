@@ -62,16 +62,24 @@ public class UserController {
 		return ResponseEntity.ok(token);
 	}
 
-	// 更新用戶
+	// 更新用戶 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+	public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO, @RequestHeader("Authorization") String token) {
+        // 驗證JWT
+        if (!jwtTokenUtil.validateToken(token.substring(7))) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 		UserDTO updatedUser = userService.updateUser(id, userDTO);
 		return ResponseEntity.ok(updatedUser);
 	}
 	
 	// 更新用戶頭圖
 	@PostMapping("/update/{id}/avatar")
-	public ResponseEntity<?> uploadAvatar(@PathVariable Long id, @RequestBody Map<String, String> request) {
+	public ResponseEntity<?> uploadAvatar(@PathVariable Long id, @RequestBody Map<String, String> request, @RequestHeader("Authorization") String token) {
+        // 驗證JWT
+        if (!jwtTokenUtil.validateToken(token.substring(7))) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 	    try {
 	        String base64Avatar = request.get("avatar");
 	        if (base64Avatar == null || !base64Avatar.startsWith("data:image/")) {
@@ -86,7 +94,11 @@ public class UserController {
 	}
 	
 	@PostMapping("/update/{id}/bio")
-	public ResponseEntity<?> updateBio(@PathVariable Long id, @RequestBody Map<String, String> request) {
+	public ResponseEntity<?> updateBio(@PathVariable Long id, @RequestBody Map<String, String> request, @RequestHeader("Authorization") String token) {
+        // 驗證JWT
+        if (!jwtTokenUtil.validateToken(token.substring(7))) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 	    try {
 	        String bio = request.get("bio");
 	        if (bio == null) {
@@ -101,6 +113,7 @@ public class UserController {
 	}
 
 	// 刪除用戶
+	// TBD: 只有rold=ADMIN的使用者可以執行此操作
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
 		userService.deleteUserById(id);

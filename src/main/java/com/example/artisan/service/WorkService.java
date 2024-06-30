@@ -62,15 +62,22 @@ public class WorkService {
         return convertToDTO(savedWork);
     }
     
+    // 取得特定作者的所有作品
     public List<WorkDTO> getWorksByAuthorId(Long authorId) {
         List<Work> works = workRepository.findByAuthorId(authorId);
         return works.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
     
+    // 取得所有作品
     public List<WorkDTO> getAllArtworks() {
     		List<Work> works = workRepository.findAll();
         return works.stream().map(this::convertToDTO).collect(Collectors.toList());
 
+	}
+    
+    // 刪除特定作品
+    public void deleteWorkById(Long id) {
+		workRepository.deleteById(id);
 	}
 
     private WorkDTO convertToDTO(Work work) {
@@ -91,13 +98,33 @@ public class WorkService {
         artistDTO.setJobTitle(work.getAuthor().getJobTitle());
         workDTO.setArtist(artistDTO);
         
-//        UserDTO userDTO = new UserDTO();
-//        userDTO.setId(work.getAuthor().getId());
-//        userDTO.setName(work.getAuthor().getName());
-//        userDTO.setBio(work.getAuthor().getBio());
-//        userDTO.setAvatarUrl(work.getAuthor().getAvatarUrl());
-//        workDTO.setArtist(userDTO);
-        
         return workDTO;
+    }
+
+    @Transactional
+    public WorkDTO updateWork(Long id, WorkDTO workDTO) {
+        Work work = workRepository.findById(id).orElseThrow(() -> new RuntimeException("Work not found"));
+
+        work.setName(workDTO.getName());
+        work.setDescription(workDTO.getDescription());
+        work.setImgUrls(workDTO.getImgUrls());
+
+        // 處理標籤
+        Set<Tag> tags = workDTO.getTags().stream()
+                .map(tagName -> {
+                    Tag tag = tagRepository.findByName(tagName);
+                    if (tag == null) {
+                        tag = new Tag();
+                        tag.setName(tagName);
+                        tag = tagRepository.save(tag);
+                    }
+                    return tag;
+                })
+                .collect(Collectors.toSet());
+        work.setTags(tags);
+
+        Work updatedWork = workRepository.save(work);
+
+        return convertToDTO(updatedWork);
     }
 }

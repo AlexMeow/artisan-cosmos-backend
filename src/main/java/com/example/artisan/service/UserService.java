@@ -53,6 +53,7 @@ public class UserService {
 
 	// Compare plain password and hashed password.
 	public boolean checkPassword(String plainPassword, String hashedPassword) {
+	    System.out.println("Password Match: " + BCrypt.checkpw(plainPassword, hashedPassword));
 		return BCrypt.checkpw(plainPassword, hashedPassword);
 	}
 

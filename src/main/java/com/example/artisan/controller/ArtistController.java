@@ -15,7 +15,7 @@ import com.example.artisan.service.UserService;
 import com.example.artisan.util.JwtTokenUtil;
 
 @RestController
-@RequestMapping("/api/artist")
+@RequestMapping("/api/artists")
 public class ArtistController {
 
 	@Autowired

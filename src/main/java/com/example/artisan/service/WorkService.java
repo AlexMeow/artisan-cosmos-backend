@@ -93,6 +93,7 @@ public class WorkService {
         workDTO.setDescription(work.getDescription());
         workDTO.setImgUrls(work.getImgUrls());
         workDTO.setTags(work.getTags().stream().map(Tag::getName).collect(Collectors.toList()));
+        workDTO.setCreatedDate(work.getCreatedDate());
         workDTO.setAuthorId(work.getAuthor().getId());
         
         ArtistDTO artistDTO = new ArtistDTO();

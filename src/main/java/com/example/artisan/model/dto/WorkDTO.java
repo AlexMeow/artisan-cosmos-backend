@@ -1,5 +1,6 @@
 package com.example.artisan.model.dto;
 
+import java.util.Date;
 import java.util.List;
 
 public class WorkDTO {
@@ -9,6 +10,7 @@ public class WorkDTO {
 	private String description;
 	private List<String> imgUrls;
 	private Long authorId;
+	private Date createdDate;
 	private ArtistDTO author;  // 包含作者的信息
 
 	// Getters and Setters
@@ -59,6 +61,14 @@ public class WorkDTO {
 
 	public void setAuthorId(Long authorId) {
 		this.authorId = authorId;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public ArtistDTO getArtist() {

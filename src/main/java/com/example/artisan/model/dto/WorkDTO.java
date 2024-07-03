@@ -11,7 +11,7 @@ public class WorkDTO {
 	private List<String> imgUrls;
 	private Long authorId;
 	private Date createdDate;
-	private ArtistDTO author;  // 包含作者的信息
+	private ArtistDTO author;  // 包含作者的資訊
 
 	// Getters and Setters
 

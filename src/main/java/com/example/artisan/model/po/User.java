@@ -29,7 +29,7 @@ public class User {
 	@Column
     private String tags;
 
-    @Column
+    @Column(columnDefinition = "LONGTEXT")
     private String bio;
 
     @ElementCollection
